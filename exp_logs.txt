@@ -1,0 +1,15 @@
+### This file contains notes of ablation experiments;
+
+Wed Apr. 3: We set image size to be 128x128 due to RAM constraints. We trained a new classiifer on attributes Male, Smiling, Bald, Mustache, No_Beard, Young, and Eyeglasses, used the standard hyperparameters for the classifier, and then trained for 500 epochs, 50k images as epoch size (i.e. we don't use all of the training samples, but again its just a classifier to assess. For more details, read the paper)
+
+Then, we trained a fader network with attributes "male" only. We haven't figured out why training it on multiple features would not work because some assertions fail in the interpolation.py class. Apparently we can only interpolate one attribute at the same time. However, in the original github's .../images/ directory, there were a couple of photos showcasing multiple interpolations on different attributes at the same time. I don't know how they got it to work with their current interpolation code, but we'll figure it out. 
+
+As for the fader network, we trained with the following parameters, trying to reproduce the original results:
+  
+python3 train.py --img_sz 128 --eval_clf models/newclf128/clf/best.pth --attr "Male" --name "fader1_male"
+
+We actually stopped training at 500+ epochs because we noticed that the different losses weren't as frequent as the first hundred epochs or so. 
+During the interpolation, some images were sort of messed up, but that's to be expected because we couldn't acquire the 256x256 images dataset, due to limited RAM memory. Therefore, we speculate that the low quality of reconstructed + feature modified images are due to hyperparameters not tuned properly. 
+
+One interesting observation that came out of our broken experiment: 
+On the failed images (our feature of choice was female->male, or vice versa), because the images felt a bit funky and definitely generated, we could observe a sort of juxtaposition between the original images of women and the same generic male figure (with mustache, dark hair, dark eyebrows). This is incredibly interesting because it gives insight into what the network is actually doing; we therefore hypothesize that the network, through excessive training, has been able to infer a "generic male" template, and sticks the template at various degrees onto images of women, as represented by this slider effects. 
