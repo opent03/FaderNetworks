@@ -6,6 +6,7 @@
 #
 
 import json
+import torch
 import numpy as np
 from logging import getLogger
 
@@ -48,7 +49,8 @@ class Evaluator(object):
         for i in range(0, len(data), bs):
             batch_x, batch_y = data.eval_batch(i, i + bs)
             _, dec_outputs = self.ae(batch_x, batch_y)
-            costs.append(((dec_outputs[-1] - batch_x) ** 2).mean().data[0])
+            #costs.append(((dec_outputs[-1] - batch_x) ** 2).mean().data[0])
+            costs.append(((dec_outputs[-1] - batch_x) ** 2).mean().data.item())
 
         return np.mean(costs)
 
@@ -126,7 +128,9 @@ class Evaluator(object):
 
     def eval_clf_accuracy(self):
         """
-        Compute the accuracy of flipped attributes according to the trained classifier.
+        Compute the accuracy of flipped attributes according to th flipped)
+                    # classify
+                    cle trained classifier.
         """
         data = self.data
         params = self.params
@@ -243,5 +247,4 @@ def compute_accuracy(classifier, data, params):
         batch_x, batch_y = data.eval_batch(i, i + bs)
         preds = classifier(batch_x).data.cpu()
         update_predictions(all_preds, preds, batch_y.data.cpu(), params)
-
     return [np.mean(x) for x in all_preds]

@@ -70,6 +70,7 @@ def attr_flag(s):
         if '.' not in x:
             attributes.append((x, 2))
         else:
+            print(x)
             split = x.split('.')
             assert len(split) == 2 and len(split[0]) > 0
             assert split[1].isdigit() and int(split[1]) >= 2
@@ -248,3 +249,11 @@ def get_lambda(l, params):
         return l
     else:
         return l * float(min(params.n_total_iter, s)) / s
+
+def recursion_change_bn(module):
+    if isinstance(module, torch.nn.BatchNorm2d):
+        module.track_running_stats = 1
+    else:
+        for i, (name, module1) in enumerate(module._modules.items()):
+            module1 = recursion_change_bn(module1)
+    return module

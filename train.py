@@ -15,6 +15,9 @@ from src.model import AutoEncoder, LatentDiscriminator, PatchDiscriminator, Clas
 from src.training import Trainer
 from src.evaluation import Evaluator
 
+import torch.backends.cudnn as cudnn
+cudnn.benchmark = True
+
 
 # parse parameters
 parser = argparse.ArgumentParser(description='Images autoencoder')
@@ -123,6 +126,7 @@ eval_clf = torch.load(params.eval_clf).cuda().eval()
 # trainer / evaluator
 trainer = Trainer(ae, lat_dis, ptc_dis, clf_dis, train_data, params)
 evaluator = Evaluator(ae, lat_dis, ptc_dis, clf_dis, eval_clf, valid_data, params)
+
 
 
 for n_epoch in range(params.n_epochs):

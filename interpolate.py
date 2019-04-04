@@ -48,6 +48,19 @@ assert params.n_images >= 1 and params.n_interpolations >= 2
 logger = create_logger(None)
 ae = torch.load(params.model_path).eval()
 
+# change bn stuff
+def recursion_change_bn(module):
+    if isinstance(module, torch.nn.BatchNorm2d):
+        module.track_running_stats = 1
+    else:
+        for i, (name, module1) in enumerate(module._modules.items()):
+            module1 = recursion_change_bn(module1)
+    return module
+
+for i, (name, module) in enumerate(ae._modules.items()):
+    module = recursion_change_bn(ae)
+ae.eval()
+
 # restore main parameters
 params.debug = True
 params.batch_size = 32

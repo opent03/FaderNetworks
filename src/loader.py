@@ -45,7 +45,7 @@ def log_attributes_stats(train_attributes, valid_attributes, test_attributes, pa
     assert k == params.n_attr
 
 
-def load_images(params):
+def load_images(params, valsplit=0.8):
     """
     Load celebA dataset.
     """
@@ -67,9 +67,16 @@ def load_images(params):
         valid_index = 15000
         test_index = 20000
     else:
+        N_IMAGES = len(images)
+        '''
         train_index = 162770
         valid_index = 162770 + 19867
         test_index = len(images)
+        '''
+        train_index = int(N_IMAGES*valsplit)
+        valid_index = int(N_IMAGES*(1-(1-valsplit)/2))
+        test_index = N_IMAGES
+
     train_images = images[:train_index]
     valid_images = images[train_index:valid_index]
     test_images = images[valid_index:test_index]

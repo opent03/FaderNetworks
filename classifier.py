@@ -23,6 +23,9 @@ from src.evaluation import compute_accuracy
 parser = argparse.ArgumentParser(description='Classifier')
 parser.add_argument("--name", type=str, default="default",
                     help="Experiment name")
+parser.add_argument("--valsplit", type=float, default=0.8, help="train size")
+parser.add_argument("--num_imgs", type=int, default=100000,
+                    help="Number of images you're using")
 parser.add_argument("--img_sz", type=int, default=256,
                     help="Image sizes (images have to be squared)")
 parser.add_argument("--img_fm", type=int, default=3,
@@ -62,7 +65,7 @@ assert not params.reload or os.path.isfile(params.reload)
 
 # initialize experiment / load dataset
 logger = initialize_exp(params)
-data, attributes = load_images(params)
+data, attributes = load_images(params, params.valsplit)
 train_data = DataSampler(data[0], attributes[0], params)
 valid_data = DataSampler(data[1], attributes[1], params)
 test_data = DataSampler(data[2], attributes[2], params)
