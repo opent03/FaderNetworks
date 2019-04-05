@@ -258,8 +258,8 @@ class Trainer(object):
             self.best_accu = np.mean(to_log['clf_accu'])
             logger.info('Best evaluation accuracy: %.5f' % self.best_accu)
             self.save_model('best_accu')
-        if to_log['n_epoch'] % 5 == 0 and to_log['n_epoch'] > 0:
-            self.save_model('periodic-%i' % to_log['n_epoch'])
+        #if to_log['n_epoch'] % 5 == 0 and to_log['n_epoch'] > 0:
+        #    self.save_model('periodic-%i' % to_log['n_epoch'])
 
 
 def classifier_step(classifier, optimizer, data, params, costs):

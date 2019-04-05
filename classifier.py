@@ -129,7 +129,7 @@ for n_epoch in range(params.n_epochs):
         best_accu = np.mean(valid_accu)
         logger.info('Best validation average accuracy: %.5f' % best_accu)
         save_model('best')
-    elif n_epoch % 10 == 0 and n_epoch > 0:
-        save_model('periodic-%i' % n_epoch)
+   # elif n_epoch % 10 == 0 and n_epoch > 0:
+        #save_model('periodic-%i' % n_epoch)
 
     logger.info('End of epoch %i.\n' % n_epoch)

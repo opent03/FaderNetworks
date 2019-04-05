@@ -12,7 +12,7 @@ IMG_SIZE = 256
 IMG_PATH = 'images_%i_%i.pth' % (IMG_SIZE, IMG_SIZE)
 ATTR_PATH = 'attributes.pth'
 all_images = []
-
+print('something')
 def preprocess_images():
 
     if os.path.isfile(IMG_PATH):
@@ -37,7 +37,7 @@ def preprocess_images():
         global all_images
         return image 
         
-    all_images = Parallel(n_jobs=8)(delayed(single_processing)(i) for i in range(1, N_IMAGES + 1))
+    all_images = Parallel(n_jobs=12)(delayed(single_processing)(i) for i in range(1, N_IMAGES + 1))
     '''
     for i in range(1, N_IMAGES + 1):
         if i % 10000 == 0:
