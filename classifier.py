@@ -17,7 +17,8 @@ from src.utils import get_optimizer, reload_model, print_accuracies
 from src.model import Classifier
 from src.training import classifier_step
 from src.evaluation import compute_accuracy
-
+import torch.backends.cudnn as cudnn
+cudnn.benchmark = True
 
 # parse parameters
 parser = argparse.ArgumentParser(description='Classifier')

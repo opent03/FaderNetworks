@@ -120,3 +120,6 @@ def preprocess_attributes():
 
 preprocess_images()
 preprocess_attributes()
+
+with open('logs_pre.txt', 'w+') as f:
+    f.write("Preprocessed {} images of size {}".format(N_IMAGES, IMG_SIZE))

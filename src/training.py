@@ -10,6 +10,7 @@ import numpy as np
 import torch
 from torch.autograd import Variable
 from torch.nn import functional as F
+from torch import nn
 from logging import getLogger
 
 from .utils import get_optimizer, clip_grad_norm, get_lambda, reload_model
@@ -28,7 +29,7 @@ class Trainer(object):
         # data / parameters
         self.data = data
         self.params = params
-
+        self.l1loss = nn.L1Loss()
         # modules
         self.ae = ae
         self.lat_dis = lat_dis
@@ -173,7 +174,10 @@ class Trainer(object):
         batch_x, batch_y = data.train_batch(bs)
         enc_outputs, dec_outputs = self.ae(batch_x, batch_y)
         # autoencoder loss from reconstruction
-        loss = params.lambda_ae * ((batch_x - dec_outputs[-1]) ** 2).mean()
+        # MSE
+        #loss = params.lambda_ae * ((batch_x - dec_outputs[-1]) ** 2).mean()
+        # MAE 
+        loss = params.lambda_ae * (torch.abs(batch_x - dec_outputs[-1])).mean()
         #self.stats['rec_costs'].append(loss.data[0])
         self.stats['rec_costs'].append(loss.data.item())
         # encoder loss from the latent discriminator
