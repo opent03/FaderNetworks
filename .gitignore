@@ -1,4 +1,4 @@
-# Created by https://www.gitignore.io/api/python
+#Created by https://www.gitignore.io/api/python
 
 ### Python ###
 # Byte-compiled / optimized / DLL files
@@ -108,6 +108,7 @@ data/*
 requirements.txt
 
 # Models
+models/
 
 
 # End of https://www.gitignore.io/api/python
