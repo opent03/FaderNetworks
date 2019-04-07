@@ -108,7 +108,7 @@ data/*
 requirements.txt
 
 # Models
-models/*
+
 
 # End of https://www.gitignore.io/api/python
 
