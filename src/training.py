@@ -155,7 +155,7 @@ class Trainer(object):
             clip_grad_norm(self.clf_dis.parameters(), params.clip_grad_norm)
         self.clf_dis_optimizer.step()
 
-    def autoencoder_step(self):
+    def autoencoder_step(self, loss_type, delta=None):
         """
         Train the autoencoder with cross-entropy loss.
         Train the encoder with discriminator loss.
@@ -173,11 +173,20 @@ class Trainer(object):
         # batch / encode / decode
         batch_x, batch_y = data.train_batch(bs)
         enc_outputs, dec_outputs = self.ae(batch_x, batch_y)
+
+
+        '''=== LOSS FUNCTION MODDIFICATIONz === '''
         # autoencoder loss from reconstruction
-        # MSE
-        #loss = params.lambda_ae * ((batch_x - dec_outputs[-1]) ** 2).mean()
-        # MAE 
-        loss = params.lambda_ae * (torch.abs(batch_x - dec_outputs[-1])).mean()
+        if loss_type == 'mae':
+            # MAE 
+            loss = params.lambda_ae * (torch.abs(batch_x - dec_outputs[-1])).mean()
+        elif loss_type == 'huber':
+            # Huber loss
+            loss = params.lambda_ae * F.smooth_l1_loss(batch_x, dec_outputs[-1])
+        else:
+            # MSE
+            loss = params.lambda_ae * ((batch_x - dec_outputs[-1]) ** 2).mean()
+        
         #self.stats['rec_costs'].append(loss.data[0])
         self.stats['rec_costs'].append(loss.data.item())
         # encoder loss from the latent discriminator

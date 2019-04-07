@@ -93,6 +93,9 @@ parser.add_argument("--eval_clf", type=str, default="",
                     help="Load an external classifier for evaluation")
 parser.add_argument("--debug", type=bool_flag, default=False,
                     help="Debug mode (only load a subset of the whole dataset)")
+
+parser.add_argument("--loss_type", type=str, default='mse',
+                    help="specify loss: mse/mae/huber")
 params = parser.parse_args()
 
 # check parameters
@@ -148,7 +151,7 @@ for n_epoch in range(params.n_epochs):
             trainer.clf_dis_step()
 
         # autoencoder training
-        trainer.autoencoder_step()
+        trainer.autoencoder_step(loss_type=params.loss_type)
 
         # print training statistics
         trainer.step(n_iter)
