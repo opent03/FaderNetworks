@@ -10,6 +10,7 @@ import torch
 from torch import nn
 from torch.autograd import Variable
 from torch.nn import functional as F
+from torchsummary import summary
 
 
 def build_layers(img_sz, img_fm, init_fm, max_fm, n_layers, n_attr, n_skip,

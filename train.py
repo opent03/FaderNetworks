@@ -14,7 +14,7 @@ from src.utils import initialize_exp, bool_flag, attr_flag, check_attr
 from src.model import AutoEncoder, LatentDiscriminator, PatchDiscriminator, Classifier
 from src.training import Trainer
 from src.evaluation import Evaluator
-
+from torchsummary import summary
 import torch.backends.cudnn as cudnn
 cudnn.benchmark = True
 
@@ -99,6 +99,7 @@ parser.add_argument("--loss_type", type=str, default='mse',
 params = parser.parse_args()
 
 # check parameters
+
 check_attr(params)
 assert len(params.name.strip()) > 0
 assert params.n_skip <= params.n_layers - 1

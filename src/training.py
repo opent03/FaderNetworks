@@ -12,7 +12,7 @@ from torch.autograd import Variable
 from torch.nn import functional as F
 from torch import nn
 from logging import getLogger
-
+from torchsummary import summary
 from .utils import get_optimizer, clip_grad_norm, get_lambda, reload_model
 from .model import get_attr_loss, flip_attributes
 
@@ -35,7 +35,7 @@ class Trainer(object):
         self.lat_dis = lat_dis
         self.ptc_dis = ptc_dis
         self.clf_dis = clf_dis
-
+        
         # optimizers
         self.ae_optimizer = get_optimizer(ae, params.ae_optimizer)
         logger.info(ae)

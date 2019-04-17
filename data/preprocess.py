@@ -8,7 +8,7 @@ from joblib import Parallel, delayed
 
 
 N_IMAGES =  120000 
-IMG_SIZE = 256 
+IMG_SIZE = 128
 IMG_PATH = 'images_%i_%i.pth' % (IMG_SIZE, IMG_SIZE)
 ATTR_PATH = 'attributes.pth'
 all_images = []

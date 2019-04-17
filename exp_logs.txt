@@ -13,3 +13,18 @@ During the interpolation, some images were sort of messed up, but that's to be e
 
 One interesting observation that came out of our broken experiment: 
 On the failed images (our feature of choice was female->male, or vice versa), because the images felt a bit funky and definitely generated, we could observe a sort of juxtaposition between the original images of women and the same generic male figure (with mustache, dark hair, dark eyebrows). This is incredibly interesting because it gives insight into what the network is actually doing; we therefore hypothesize that the network, through excessive training, has been able to infer a "generic male" template, and sticks the template at various degrees onto images of women, as represented by this slider effects. 
+
+
+Sat Apr. 6: We decide to reproduce the experiment for the "Male" attribute only. We have experimented with MSE and MAE losses, and currently running huber loss. 
+We ran this command:
+
+TRAIN
+python3 train.py --name "male_mae" --img_sz 128 --attr "Male" --n_epochs 100 --epoch_size 120000 --eval_clf '/home/viet/FaderNetworks/models/default/clf_male_smiling_bald_mustache_nobeard_young_eyeglasses/best.pth' --lambda_schedule 300000 --loss_type "mae" 
+
+TEST
+python3 interpolate.py --model_path '/home/viet/FaderNetworks/models/male_mse/male_mse_1/best_accu_ae.pth' --n_images 10 --n_interpolations 10 --alpha_min 2.0 --alpha_max 2.0 --output_path stuff/male_mse.png
+
+and change the arguments. 
+We do not see an obvious difference between the two losses, aside from the fact that they are both blurrier than the original photo, but that's to be expected because there is always going to be some reconstruction loss along the way. We wonder if adding skip connections would help with the reconstruction quality. The original authors of the paper have already included parameters and code for adding skip connections. So far, our only remark would be that changing losses do not necessarily contribute to better quality or better inference. So far the inferences look the same. 
+To-do-list: Train a classifier to recognize male-female on a different dataset. 
+

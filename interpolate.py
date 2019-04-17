@@ -95,6 +95,7 @@ def get_interpolations(ae, images, attributes, params):
     for alpha in alphas:
         alpha = Variable(alpha.unsqueeze(0).expand((len(images), 2)).cuda())
         outputs.append(ae.decode(enc_outputs, alpha)[-1])
+        print(alpha)
 
     # return stacked images
     return torch.cat([x.unsqueeze(1) for x in outputs], 1).data.cpu()
