@@ -1,5 +1,7 @@
 # FaderNetworks
 
+## Ablation study: Results and discussion in writeup.pdf
+
 PyTorch implementation of [Fader Networks](https://arxiv.org/pdf/1706.00409.pdf) (NIPS 2017).
 
 <p align="center"><a href=https://github.com/facebookresearch/FaderNetworks/blob/master/images/interpolation.jpg?raw=true><img width="100%" src="./images/interpolation.jpg" /></a></p>
